@@ -19,18 +19,18 @@ describe FireHazard::Board do
     let(:board) { FireHazard::Board.new }
 
     it 'should be off at 0,0' do
-        board.at('0,0').must_equal false
+        board.at('0,0').must_equal 0
     end
 
     it 'should be off at 999,999' do
-        board.at('999,999').must_equal false
+        board.at('999,999').must_equal 0
     end
 
     it 'should allow execution of a function from ab to xy' do
-        board.from('0,0', '2,2') { |x| true }
-        board.at('0,0').must_equal true
-        board.at('2,2').must_equal true
-        board.at('3,3').must_equal false
+        board.from('0,0', '2,2') { |x| 1 }
+        board.at('0,0').must_equal 1
+        board.at('2,2').must_equal 1
+        board.at('3,3').must_equal 0
     end
 end
 
@@ -46,15 +46,15 @@ describe 'FireHazard::Board.turn_on' do
 
     it 'should turn on every light' do
         board.turn_on('0,0', '999,999')
-        board.at('0,0').must_equal true
-        board.at('555,555').must_equal true
-        board.at('999,999').must_equal true
+        board.at('0,0').must_equal 1
+        board.at('555,555').must_equal 1
+        board.at('999,999').must_equal 1
     end
 
     it 'should turn on one light' do
         board.turn_on('0,0', '0,0')
-        board.at('0,0').must_equal true
-        board.at('1,1').must_equal false
+        board.at('0,0').must_equal 1
+        board.at('1,1').must_equal 0
     end
 end
 
@@ -66,16 +66,16 @@ describe 'FireHazard::Board.toggle' do
 
     it 'should toggle first column of lights' do
         board.toggle('0,0', '999,0')
-        board.at('0,0').must_equal true
-        board.at('999,0').must_equal true
-        board.at('0,1').must_equal false
+        board.at('0,0').must_equal 1
+        board.at('999,0').must_equal 1
+        board.at('0,1').must_equal 0
     end
 
     it 'should toggle off lights that are on' do
         board.all_on.toggle('0,0', '0,0')
-        board.at('0,0').must_equal false
-        board.at('1,1').must_equal true
-        board.at('999,999').must_equal true
+        board.at('0,0').must_equal 0
+        board.at('1,1').must_equal 1
+        board.at('999,999').must_equal 1
     end
 end
 
@@ -87,16 +87,16 @@ describe 'FireHazard::Board.turn_off' do
 
     it 'should turn off a single light' do
         board.all_on.turn_off('0,0', '0,0')
-        board.at('0,0').must_equal false
-        board.at('0,1').must_equal true
+        board.at('0,0').must_equal 0
+        board.at('0,1').must_equal 1
     end
 
     it 'should turn off the middle four lights' do
         board.all_on.turn_off('499,499', '500,500')
-        board.at('0,0').must_equal true
-        board.at('499,499').must_equal false
-        board.at('500,500').must_equal false
-        board.at('501,501').must_equal true
+        board.at('0,0').must_equal 1
+        board.at('499,499').must_equal 0
+        board.at('500,500').must_equal 0
+        board.at('501,501').must_equal 1
     end
 end
 
@@ -137,5 +137,29 @@ describe 'FireHazard.instruction' do
         board.expect :toggle, nil, ['0,0', '0,0']
         FireHazard.instruction(board, 'toggle 0,0 through 0,0')
         board.verify
+    end
+end
+
+describe 'FireHazard::NordicBoard' do
+    let(:board) { FireHazard::NordicBoard.new }
+
+    it 'should increase the brightness by one' do
+        board.process('turn on 0,0 through 0,0')
+        board.count.must_equal 1
+    end
+
+    it 'should increase the total brightness by 2000000' do
+        board.process('toggle 0,0 through 999,999')
+        board.count.must_equal 2000000
+    end
+
+    it 'should increase the total brightness by 1000000' do
+        board.process('toggle 0,0 through 999,999')
+        board.process('turn off 0,0 through 999,999')
+        board.count.must_equal 1000000
+    end
+    it 'should have a total brightness of 0' do
+        board.process('turn off 0,0 through 999,999')
+        board.count.must_equal 0
     end
 end

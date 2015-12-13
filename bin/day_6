@@ -4,13 +4,16 @@ require 'fire_hazard'
 
 # Set up a new board
 board = FireHazard::Board.new
+nordic_board = FireHazard::NordicBoard.new
 
 # Read input, processing each line
 ARGF.read.split(/\n/).reject(&:empty?).each do |instruction|
     STDERR.print '.'
-    board.process(instruction.strip)
+    board.process(instruction)
+    nordic_board.process(instruction)
 end
 
 STDERR.puts ''
 
 puts "#{board.count} Lights On"
+puts "#{nordic_board.count} Total Brightness"

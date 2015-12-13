@@ -3,7 +3,7 @@ require 'fire_hazard/instruction'
 module FireHazard
     class Board
         def initialize(size=1000)
-            @board = (1..size).map { |e| (1..size).map { |e| false } }
+            @board = (1..size).map { |e| (1..size).map { |e| 0 } }
         end
 
         def at(xy)
@@ -12,7 +12,7 @@ module FireHazard
         end
 
         def turn_on(ab, xy)
-            from(ab, xy) { |e| true }
+            from(ab, xy) { |e| 1 }
         end
 
         def all_on
@@ -20,11 +20,11 @@ module FireHazard
         end
 
         def turn_off(ab, xy)
-            from(ab, xy) { |e| false }
+            from(ab, xy) { |e| 0 }
         end
 
         def toggle(ab, xy)
-            from(ab, xy) { |e| !e }
+            from(ab, xy) { |e| e.zero? ? 1 : 0 }
         end
 
         def process(cmd)
@@ -36,15 +36,14 @@ module FireHazard
             x,y = str_to_coords(xy)
             (a..x).map do |i|
                 (b..y).map do |j|
-                    res = yield @board[i][j]
-                    @board[i][j] = res && true
+                    @board[i][j] = yield @board[i][j]
                 end
             end
             self
         end
 
         def count
-            @board.flatten.inject(0) { |sum, n| n ? sum + 1 : sum }
+            @board.flatten.inject(0) { |sum, n| sum + n }
         end
 
         private
