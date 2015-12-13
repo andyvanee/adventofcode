@@ -3,6 +3,6 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'delivery_route'
 
 directions = ARGF.read.strip
-route_length = DeliveryRoute.process(directions)
+route_length = DeliveryRoute.process(directions).length
 
 puts "#{route_length} houses receive at least one present"
