@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+require 'advent_coin'
+
+puts "AdventCoin::for('bgvyzdsv'): #{AdventCoin::for('bgvyzdsv')}"

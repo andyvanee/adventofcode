@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+require 'naughty_strings'
+
+# Read input split into lines
+all_strings = ARGF.read.split(/\n/).reject(&:empty?)
+
+# Select only the nice strings
+nice_strings = all_strings.select { |x| NaughtyStrings.nice_string(x) }
+
+puts "#{nice_strings.length} nice strings found"

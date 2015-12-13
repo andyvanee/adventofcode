@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+require 'wrapping_paper'
+
+# Read input split into lines
+box_dimensions = ARGF.read.split(/\n/).reject(&:empty?)
+
+# Get the paper area sum
+paper_sum = WrappingPaper.sum(box_dimensions)
+
+puts "The elves should order #{paper_sum} square feet of wrapping paper"

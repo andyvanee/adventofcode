@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+require 'delivery_route'
+
+directions = ARGF.read.strip
+route_length = DeliveryRoute.process(directions)
+
+puts "#{route_length} houses receive at least one present"

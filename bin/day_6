@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+require 'fire_hazard'
+
+# Set up a new board
+board = FireHazard::Board.new
+
+# Read input, processing each line
+ARGF.read.split(/\n/).reject(&:empty?).each do |instruction|
+    STDERR.print '.'
+    board.process(instruction.strip)
+end
+
+STDERR.puts ''
+
+puts "#{board.count} Lights On"
