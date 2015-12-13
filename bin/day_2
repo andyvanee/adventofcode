@@ -8,4 +8,8 @@ box_dimensions = ARGF.read.split(/\n/).reject(&:empty?)
 # Get the paper area sum
 paper_sum = WrappingPaper.sum(box_dimensions)
 
+# Get the ribbon length sum
+ribbon_sum = WrappingPaper.ribbon_sum(box_dimensions)
+
 puts "The elves should order #{paper_sum} square feet of wrapping paper"
+puts "The elves should order #{ribbon_sum} total feet of ribbon"
