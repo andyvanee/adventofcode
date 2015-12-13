@@ -1,14 +1,15 @@
 #!/usr/bin/env ruby
 
 counter = 0
+in_basement = false
 
-ARGF.read.strip.split('').each do |i|
-  if i == '('
-    counter += 1
-  end
-  if i == ')'
-    counter -= 1
-  end
+ARGF.read.strip.split('').each_with_index do |e, i|
+    counter += 1 if e == '('
+    counter -= 1 if e == ')'
+    if counter == -1 && !in_basement
+        in_basement = true
+        puts "Santa entered the basement at position: #{i+1}"
+    end
 end
 
 puts "Instructions take Santa to floor: #{counter}"
