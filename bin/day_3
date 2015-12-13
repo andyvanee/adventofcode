@@ -3,6 +3,19 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'delivery_route'
 
 directions = ARGF.read.strip
-route_length = DeliveryRoute.process(directions).length
+santa_route = DeliveryRoute.process(directions)
 
-puts "#{route_length} houses receive at least one present"
+puts "#{santa_route.length} houses receive at least one present"
+
+# In the second iteration, Santa gets all the odd numbered directions
+santa_prime_directions = directions.split('').each_with_index.map { |x,i| i.odd? ? x : '' }.join
+# ... and Robo-Santa gets all the even
+robo_santa_directions = directions.split('').each_with_index.map { |x,i| i.even? ? x : '' }.join
+
+santa_prime_route = DeliveryRoute.process(santa_prime_directions)
+robo_santa_route = DeliveryRoute.process(robo_santa_directions)
+
+# Routes are sets, so we use the union operation
+composite_route = santa_prime_route + robo_santa_route
+
+puts "#{composite_route.length} houses receive at least one present using Robo-Santa"
