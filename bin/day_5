@@ -9,3 +9,8 @@ all_strings = ARGF.read.split(/\n/).reject(&:empty?)
 nice_strings = all_strings.select { |x| NaughtyStrings.nice_string(x) }
 
 puts "#{nice_strings.length} nice strings found"
+
+# Select only the NICER strings
+nicer_strings = all_strings.select { |x| NaughtyStrings.nicer_string(x) }
+
+puts "#{nicer_strings.length} NICER strings found"

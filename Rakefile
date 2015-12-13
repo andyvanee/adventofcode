@@ -32,4 +32,9 @@ namespace :day do
     task :five do
         puts `bin/day_5 < spec/data/day_5.txt`
     end
+
+    desc 'Fire Hazard'
+    task :six do
+        puts `bin/day_6 < spec/data/day_6.txt`
+    end
 end
