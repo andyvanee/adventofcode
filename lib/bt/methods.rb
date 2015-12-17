@@ -1,4 +1,6 @@
 module BT
+    MAX_INT = 65535
+
     module Methods
         class NOT
             def eval(value)

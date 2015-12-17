@@ -1,4 +1,9 @@
 module BT
+    #
+    # BT::ValOp
+    #
+    # Create an evaluator for a value or variable reference
+    #
     class ValOp
         def initialize(v)
             if /\d+/.match v

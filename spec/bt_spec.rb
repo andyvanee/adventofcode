@@ -71,12 +71,6 @@ describe BT do
         exp.evaluator.eval({}).must_equal 1
     end
 
-    # it 'Expression.parse a -> b' do
-    #     exp = BT::Expression.parse('a -> x')
-    #     exp.target.must_equal 'x'
-    #     exp.evaluator.eval(graph).must_equal 12
-    # end
-
     it 'Expression.parse NOT 1 -> x' do
         exp = BT::Expression.parse('NOT 0 -> x')
         exp.target.must_equal 'x'

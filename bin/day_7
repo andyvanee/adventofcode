@@ -2,24 +2,27 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'bt'
 
+# Part 1
+# ========================================
 circuit = BT::Circuit.new
 
 input_lines = ARGF.read.split(/\n/).reject(&:empty?)
 
-input_lines.each do |instruction|
-    circuit << instruction
-end
+input_lines.each { |i| circuit << i }
 
 first_a = circuit['a']
 
 puts "Wire a is: #{first_a}"
 
+# Part 2
+# ========================================
 circuit2 = BT::Circuit.new
 
-input_lines.each do |instruction|
-    circuit2 << instruction
-end
+input_lines.each { |i| circuit2 << i }
 
+# take the signal you got on wire a, override wire b to that signal
 circuit2 << "#{first_a} -> b"
+
 second_a = circuit2['a']
+
 puts "Wire a is now: #{second_a}"

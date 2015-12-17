@@ -1,4 +1,9 @@
 module BT
+    #
+    # BT::UnaOp
+    #
+    # Create an evaluator for a method with one argument
+    #
     class UnaOp
         def initialize(m, v)
             @value = ValOp.new(v)

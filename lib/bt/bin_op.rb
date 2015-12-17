@@ -1,4 +1,9 @@
 module BT
+    #
+    # BT::BinOp
+    #
+    # Create an evaluator for a method with two arguments
+    #
     class BinOp
         def initialize(m, x, y)
             @x = ValOp.new(x)

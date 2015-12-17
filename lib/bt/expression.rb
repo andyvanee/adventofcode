@@ -1,6 +1,15 @@
 require 'bt/evaluator'
 
 module BT
+    #
+    # BT::Expression
+    #
+    # An Expression is a combination of the target variable name and a
+    # BT::Evaluator function to generate that variable.
+    #
+    # BT::Expression.parse takes a single line and returns an expression.
+    #
+
     class Expression
         attr_accessor :target, :evaluator
 

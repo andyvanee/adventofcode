@@ -7,19 +7,18 @@ module BT
     class Evaluator
         def initialize(a,b='',c='')
             if b.empty? && c.empty?
-                # eg: 123
-                @e = ValOp.new(a)
+                @e = ValOp.new(a)       # value
             elsif c.empty?
-                # eg: NOT 12
-                @e = UnaOp.new(a, b)
+                @e = UnaOp.new(a, b)    # METHOD value
             elsif a.empty?
-                raise 'error'
+                raise 'BT::Evaluator argument error'
             else
-                # eg: 4 AND 12
-                @e = BinOp.new(b, a, c)
+                @e = BinOp.new(b, a, c) # value METHOD value
             end
         end
+
         def eval(graph)
+            # Memoize that sucker!!
             @value ||= @e.eval(graph)
         end
     end
