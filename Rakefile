@@ -9,37 +9,42 @@ end
 
 namespace :day do
     desc 'Santa Elevator'
-    task :one do
+    task :'1' do
         puts `bin/day_1 < spec/data/day_1.txt`
     end
 
     desc 'Elves Wrapping'
-    task :two do
+    task :'2' do
         puts `bin/day_2 < spec/data/day_2.txt`
     end
 
     desc 'Delivery Route'
-    task :three do
+    task :'3' do
         puts `bin/day_3 < spec/data/day_3.txt`
     end
 
     desc 'Advent Coins'
-    task :four do
+    task :'4' do
         puts `bin/day_4`
     end
 
     desc 'Nice Strings'
-    task :five do
+    task :'5' do
         puts `bin/day_5 < spec/data/day_5.txt`
     end
 
     desc 'Fire Hazard'
-    task :six do
+    task :'6' do
         puts `bin/day_6 < spec/data/day_6.txt`
     end
 
     desc 'Bobby Tables Circuit'
-    task :seven do
+    task :'7' do
         puts `bin/day_7 < spec/data/day_7.txt`
+    end
+
+    desc 'Matchsticks'
+    task :'8' do
+        puts `bin/day_8 < spec/data/day_8.txt`
     end
 end
