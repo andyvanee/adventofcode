@@ -37,4 +37,9 @@ namespace :day do
     task :six do
         puts `bin/day_6 < spec/data/day_6.txt`
     end
+
+    desc 'Bobby Tables Circuit'
+    task :seven do
+        puts `bin/day_7 < spec/data/day_7.txt`
+    end
 end

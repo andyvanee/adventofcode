@@ -12,7 +12,7 @@ input_lines.each { |i| circuit << i }
 
 first_a = circuit['a']
 
-puts "Wire a is: #{first_a}"
+puts "Wire 'a' is: #{first_a}"
 
 # Part 2
 # ========================================
@@ -25,4 +25,4 @@ circuit2 << "#{first_a} -> b"
 
 second_a = circuit2['a']
 
-puts "Wire a is now: #{second_a}"
+puts "Wire 'a' is now: #{second_a}"
