@@ -9,7 +9,8 @@ routes = defaultdict(dict)
 for line in sys.stdin:
     [directions, distance] = line.split(' = ')
     distance = distance.strip()
-    locations.update(directions.split(' to '))
+    [a, b] = directions.split(' to ')
+    locations.update([a, b])
     routes[a][b] = routes[b][a] = int(distance)
 
 shortest_path = float("inf")
