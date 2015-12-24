@@ -7,8 +7,7 @@ locations = set()
 routes = defaultdict(dict)
 
 for line in sys.stdin:
-    [directions, distance] = line.split(' = ')
-    distance = distance.strip()
+    [directions, distance] = line.strip().split(' = ')
     [a, b] = directions.split(' to ')
     locations.update([a, b])
     routes[a][b] = routes[b][a] = int(distance)
