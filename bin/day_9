@@ -11,8 +11,7 @@ for line in sys.stdin:
     distance = distance.strip()
     [a, b] = spec.split(' to ')
     locations.update([a, b])
-    routes[a][b] = int(distance)
-    routes[b][a] = int(distance)
+    routes[a][b] = routes[b][a] = int(distance)
 
 shortest_path = float("inf")
 
