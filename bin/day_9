@@ -17,16 +17,12 @@ for line in sys.stdin:
 shortest_path = float("inf")
 
 for route in permutations(locations):
-    try:
-        distance = 0
-        for i in range(0, len(route)-1):
-            distance += routes[route[i]][route[i+1]]
-        if distance <= shortest_path:
-            shortest_path = distance
-            shortest_route = route
-
-    except KeyError:
-        continue
+    distance = 0
+    for i in range(0, len(route)-1):
+        distance += routes[route[i]][route[i+1]]
+    if distance <= shortest_path:
+        shortest_path = distance
+        shortest_route = route
 
 print("The shortest path is:", shortest_path)
 print(shortest_route)
