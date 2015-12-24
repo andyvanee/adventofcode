@@ -24,4 +24,4 @@ for route in permutations(locations):
         shortest_route = route
 
 print("The shortest path is:", shortest_path)
-print(shortest_route)
+print(' -> '.join(shortest_route))
