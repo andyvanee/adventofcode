@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+import sys
+from itertools import permutations
+from collections import defaultdict
+
+locations = set()
+routes = defaultdict(dict)
+
+for line in sys.stdin:
+    [spec, distance] = line.split(' = ')
+    distance = distance.strip()
+    [a, b] = spec.split(' to ')
+    locations.update([a, b])
+    routes[a][b] = int(distance)
+    routes[b][a] = int(distance)
+
+shortest_path = float("inf")
+
+for route in permutations(locations):
+    try:
+        distance = 0
+        for i in range(0, len(route)-1):
+            distance += routes[route[i]][route[i+1]]
+        if distance <= shortest_path:
+            shortest_path = distance
+            shortest_route = route
+
+    except KeyError:
+        continue
+
+print("The shortest path is:", shortest_path)
+print(shortest_route)
