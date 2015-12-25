@@ -50,6 +50,7 @@ namespace :day do
 
     desc "Shortest Path"
     task :'9' do
-        system('./bin/day_9 < spec/data/day_9.txt')
+        system('PYTHONPATH=`pwd`/lib python3 spec/shortest_path_test.py')
+        system('PYTHONPATH=`pwd`/lib ./bin/day_9 < spec/data/day_9.txt')
     end
 end
