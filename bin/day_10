@@ -6,4 +6,9 @@ current = "1321131112"
 for i in range(0,40):
     current = look_and_say(current)
 
-print(len(current))
+print('Length after 40 iterations is: ', len(current))
+
+for i in range(0,10):
+    current = look_and_say(current)
+
+print('Length after 50 iterations is: ', len(current))
