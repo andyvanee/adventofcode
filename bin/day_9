@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import sys
-from shortest_path import ShortestPath
+from present_path import PresentPath
 
-path = ShortestPath(sys.stdin)
-print("The shortest path is:", path.distance)
-print(' -> '.join(path.route))
+path = PresentPath(sys.stdin)
+print("The shortest route is:", path.shortest)
+print(' -> '.join(path.shortest_route))
+print("The longest route is:", path.longest)
+print(' -> '.join(path.longest_route))

@@ -1,26 +1,31 @@
 from itertools import permutations
 from collections import defaultdict
 
-class ShortestPath:
+class PresentPath:
     def __init__(self, lines):
         self.locations = set()
         self.routes = defaultdict(dict)
-        self.distance = float("inf")
-        self.route = []
-        for loc in ShortestPath.parse(lines):
+        self.shortest = float("inf")
+        self.shortest_route = []
+        self.longest = 0
+        self.longest_route = []
+        for loc in PresentPath.parse(lines):
             [a, b, distance] = loc
             self.locations.update([a, b])
             self.routes[a][b] = self.routes[b][a] = int(distance)
-        self.shortest()
+        self.filter()
 
-    def shortest(self):
+    def filter(self):
         for route in permutations(self.locations):
             distance = 0
             for i in range(0, len(route)-1):
                 distance += self.routes[route[i]][route[i+1]]
-            if distance <= self.distance:
-                self.distance = distance
-                self.route = route
+            if distance <= self.shortest:
+                self.shortest = distance
+                self.shortest_route = route
+            if distance >= self.longest:
+                self.longest = distance
+                self.longest_route = route
 
     @staticmethod
     def parse(lines):
