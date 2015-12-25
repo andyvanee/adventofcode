@@ -53,4 +53,10 @@ namespace :day do
         system('PYTHONPATH=`pwd`/lib python3 spec/present_path_test.py')
         system('PYTHONPATH=`pwd`/lib ./bin/day_9 < spec/data/day_9.txt')
     end
+
+    desc "Look and Say"
+    task :'10' do
+        system('PYTHONPATH=`pwd`/lib python3 spec/look_and_say_test.py')
+        system('PYTHONPATH=`pwd`/lib ./bin/day_10')
+    end
 end

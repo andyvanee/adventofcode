@@ -1,0 +1,9 @@
+#!/usr/bin/env python3
+from look_and_say import look_and_say
+
+current = "1321131112"
+
+for i in range(0,40):
+    current = look_and_say(current)
+
+print(len(current))
