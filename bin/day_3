@@ -1,5 +1,4 @@
-#!/usr/bin/env ruby
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+#!/usr/bin/env ruby -I src
 require 'delivery_route'
 
 directions = ARGF.read.strip

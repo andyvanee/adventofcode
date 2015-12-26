@@ -2,7 +2,7 @@ require 'rake'
 require 'rake/testtask'
 
 Rake::TestTask.new do |t|
-  t.libs << "lib"
+  t.libs << "src"
   t.libs << "spec"
   t.pattern = 'spec/**/*_spec.rb'
 end
@@ -50,13 +50,13 @@ namespace :day do
 
     desc "Present Paths"
     task :'9' do
-        system('PYTHONPATH=`pwd`/lib python3 spec/present_path_test.py')
-        system('PYTHONPATH=`pwd`/lib ./bin/day_9 < spec/data/day_9.txt')
+        system('PYTHONPATH=src python3 spec/present_path_test.py')
+        system('PYTHONPATH=src ./bin/day_9 < spec/data/day_9.txt')
     end
 
     desc "Look and Say"
     task :'10' do
-        system('PYTHONPATH=`pwd`/lib python3 spec/look_and_say_test.py')
-        system('PYTHONPATH=`pwd`/lib ./bin/day_10')
+        system('PYTHONPATH=src python3 spec/look_and_say_test.py')
+        system('PYTHONPATH=src ./bin/day_10')
     end
 end
