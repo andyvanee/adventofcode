@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+cat day_12/day_12.txt | grep -Eo '\-?\d+' | awk '{s+=$1} END {print s}'

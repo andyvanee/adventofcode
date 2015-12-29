@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -I src
+#!/usr/bin/env ruby -I day_03
 require 'delivery_route'
 
 directions = ARGF.read.strip

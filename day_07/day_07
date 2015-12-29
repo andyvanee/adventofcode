@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -I src
+#!/usr/bin/env ruby -I day_07
 require 'bt'
 
 # Part 1

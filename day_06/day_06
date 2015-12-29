@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -I src
+#!/usr/bin/env ruby -I day_06
 require 'fire_hazard'
 
 # Set up a new board

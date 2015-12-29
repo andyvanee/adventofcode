@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -I src
+#!/usr/bin/env ruby -I day_02
 require 'wrapping_paper'
 
 # Read input split into lines

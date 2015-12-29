@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -I src
+#!/usr/bin/env ruby -I day_05
 require 'naughty_strings'
 
 # Read input split into lines

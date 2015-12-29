@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -I src
+#!/usr/bin/env ruby -I day_04
 require 'advent_coin'
 
 puts "AdventCoin::for('bgvyzdsv'): #{AdventCoin::for('bgvyzdsv')}"
