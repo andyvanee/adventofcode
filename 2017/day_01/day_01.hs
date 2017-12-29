@@ -1,8 +1,8 @@
 import Data.Char
 
-pairsL x = zip x (offsetL x)
+pairsL x = zip x $ offsetL x
 
-offsetL x = ((tail x) ++ (head x) : [])
+offsetL x = (tail x) ++ (head x) : []
 
 numList l = [digitToInt x | x <- l]
 
