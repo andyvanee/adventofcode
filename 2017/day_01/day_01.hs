@@ -2,4 +2,4 @@ import TupleCaptcha
 
 main = do
     input <- getLine
-    print $ tupleCaptchaSum input
+    print $ tupleCaptchaSum (stringToDigits input) shiftedPairs
