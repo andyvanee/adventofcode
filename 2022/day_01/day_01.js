@@ -1,17 +1,26 @@
-import {readFile} from "node:fs/promises"
+import {readFile, Elf, ElfGroup, Food} from '../lib/index.js'
 
-const puzzleInput = await readFile('day_01.txt', {encoding: 'utf-8'})
+const puzzleInput = await readFile('day_01.txt')
 
-const inventories = puzzleInput.split("\n\n").map(lines => {
-    return lines.split("\n")
-        .filter(x => x)
-        .map(x => parseInt(x))
-        .reduce((prev, current) => prev + current, 0)
-})
+const group = new ElfGroup()
 
-const maxElfCalories = inventories.reduce((prevItem, value, id) => {
-    const currentItem = {id, value};
-    return (currentItem.value > prevItem.value) ? currentItem : prevItem
-}, {id: 0, value: -Infinity})
+{
+    let id = 0
 
-console.log({maxElfCalories})
+    for (const lines of puzzleInput.split('\n\n')) {
+        const elf = new Elf()
+        elf.id = ++id
+        for (const calories of lines.split('\n').filter((x) => x)) {
+            const food = new Food({
+                name: 'Tofu',
+                calories: parseInt(calories, 10),
+            })
+            elf.inventory.food.push(food)
+        }
+        group.add(elf)
+    }
+}
+
+const elf = group.sortByCalories()[0]
+
+console.log(`${elf}`)

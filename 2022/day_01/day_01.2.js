@@ -1,6 +1,6 @@
-import {readFile} from "node:fs/promises"
+import {readFile} from "../lib/Filesystem.js"
 
-const puzzleInput = await readFile('day_01.txt', {encoding: 'utf-8'})
+const puzzleInput = await readFile('day_01.txt')
 
 const inventories = puzzleInput.split("\n\n").map(lines => {
     return lines.split("\n")
