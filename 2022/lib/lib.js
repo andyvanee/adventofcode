@@ -1,4 +1,7 @@
 import {readFile as fsReadFile} from 'node:fs/promises'
+import {argv} from 'node:process'
+
+export const args = argv.slice(2)
 
 export const sum = (list) => {
     return list.reduce((x, y) => x + y, 0)
