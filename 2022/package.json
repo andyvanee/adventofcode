@@ -3,5 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "type": "module"
+  "type": "module",
+  "scripts": {
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+  },
+  "devDependencies": {
+    "jest": "^29.3.1"
+  }
 }

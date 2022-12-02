@@ -1,4 +1,4 @@
-import {RockPaperScissors} from '../../lib/index.js'
+import {RockPaperScissors} from '../lib/index.js'
 
 export const part1 = puzzleInput => {
     const game = new RockPaperScissors.Game()
