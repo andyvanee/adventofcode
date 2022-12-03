@@ -7,6 +7,11 @@ export const sum = (list) => {
     return list.reduce((x, y) => x + y, 0)
 }
 
+export const split = (list) => {
+    const halfLength = Math.floor(list.length / 2)
+    return [list.slice(0, halfLength), list.slice(halfLength)]
+}
+
 export const readFile = async (path) => {
     return await fsReadFile(path, {encoding: 'utf-8'})
 }
