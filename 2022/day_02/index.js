@@ -1,23 +1,30 @@
-import { readFile } from "../lib/index.js";
-import { part1 } from "./tests/part1.js";
-import { part2 } from "./tests/part2.js";
+import {RockPaperScissors} from '../lib/index.js'
 
-console.log(`
-    PART 1: example.txt
-    ${part1(await readFile("tests/example.txt"))}
-`);
+export const part1 = (puzzleInput) => {
+    const game = new RockPaperScissors.Game()
+    for (const line of puzzleInput.split('\n')) {
+        const [a, b] = line.split(' ')
+        if (!(a && b)) continue
+        game.roundFromLetters(a, b)
+    }
+    return game.total('b')
+}
 
-console.log(`
-    PART 1: day_02.txt
-    ${part1(await readFile("tests/day_02.txt"))}
-`);
+export const part2 = (puzzleInput) => {
+    const game = new RockPaperScissors.Game()
+    for (const line of puzzleInput.split('\n')) {
+        const [a, b] = line.split(' ')
+        if (!(a && b)) continue
 
-console.log(`
-    PART 2: example.txt
-    ${part2(await readFile("tests/example.txt"))}
-`);
+        const desiredOutcome = RockPaperScissors.OUTCOMES[b]
 
-console.log(`
-    PART 2: day_02.txt
-    ${part2(await readFile("tests/day_02.txt"))}
-`);
+        const outcome = [
+            RockPaperScissors.Round.fromLetters(a, 'A'),
+            RockPaperScissors.Round.fromLetters(a, 'B'),
+            RockPaperScissors.Round.fromLetters(a, 'C'),
+        ].find((option) => option.outcome()[1] === desiredOutcome)
+
+        game.addRound(outcome)
+    }
+    return game.total('b')
+}
