@@ -24,6 +24,15 @@ export class Item {
     static fromLetter(letter) {
         return Item.types.find((i) => i.letter === letter)
     }
+
+    /**
+     * Determine if items are equal
+     * @param {Item} other Item to compare against
+     * @returns {boolean}
+     */
+    equals(other) {
+        return this.letter === other.letter
+    }
 }
 
 class Compartment {
@@ -57,6 +66,23 @@ export class Rucksack {
                 if (item.letter === itemB.letter) return item
             }
         }
+    }
+
+    /**
+     * Find the item that this rucksack shares with others, called the badge
+     * @param {Rucksack[]} others Other rucksacks in group
+     */
+    findBadge(others) {
+        for (const item of this.items) {
+            const match = others.filter((other) =>
+                other.items.find((i) => i.equals(item))
+            )
+            if (match.length === others.length) return item
+        }
+    }
+
+    get items() {
+        return [this.compartments[0].items, this.compartments[1].items].flat()
     }
 
     static fromString(stringValue) {
