@@ -1,40 +1,40 @@
-/**
- * @typedef ItemType
- * @type {object}
- * @property {string} letter - Letter name [a-zA-z]
- * @property {number} priority - Letter priority [1-52]
- */
-
 import {split} from '../lib.js'
 
-/**
- * @typedef {('a' | 'b')} CompartmentId
- */
+export class Item {
+    letter = '_'
+    priority = 0
 
-/**
- * @type {ItemType[]}
- */
-export const itemTypes = [...new Array(52)]
-    .map((_, i) => {
-        if (i >= 26) return String.fromCharCode(i + 39)
-        return String.fromCharCode(i + 97)
-    })
-    .map((letter, i) => {
-        return {letter, priority: i + 1}
-    })
+    /**
+     * @param {string} letter
+     * @param {number} priority
+     */
+    constructor(letter, priority) {
+        Object.assign(this, {letter, priority})
+    }
 
-export const itemFromLetter = (letter) =>
-    itemTypes.find((i) => i.letter === letter)
+    static types = [...new Array(52)]
+        .map((_, i) => {
+            if (i >= 26) return String.fromCharCode(i + 39)
+            return String.fromCharCode(i + 97)
+        })
+        .map((letter, i) => {
+            return new Item(letter, i + 1)
+        })
+
+    static fromLetter(letter) {
+        return Item.types.find((i) => i.letter === letter)
+    }
+}
 
 class Compartment {
     /**
-     * @type {ItemType[]}
+     * @type {Item[]}
      */
     items = []
 
     /**
      * Add item to compartmet
-     * @param {ItemType} item - Item to add
+     * @param {Item} item - Item to add
      */
     addItem(item) {
         this.items.push(item)
@@ -43,7 +43,7 @@ class Compartment {
     static fromString(stringValue) {
         const compartment = new Compartment()
         const letters = stringValue.split('')
-        letters.map((letter) => compartment.addItem(itemFromLetter(letter)))
+        letters.map((letter) => compartment.addItem(Item.fromLetter(letter)))
         return compartment
     }
 }
