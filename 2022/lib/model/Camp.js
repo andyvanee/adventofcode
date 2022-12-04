@@ -1,6 +1,7 @@
 export class Section {
     min = 0
     max = 0
+
     constructor(min, max) {
         Object.assign(this, {min, max})
     }
@@ -16,6 +17,13 @@ export class Section {
      */
     includes(other) {
         return this.min <= other.min && this.max >= other.max
+    }
+
+    overlaps(other) {
+        return (
+            (this.min <= other.max && this.min >= other.min) ||
+            (this.max >= other.min && this.max <= other.max)
+        )
     }
 
     static fromString(rangeString) {

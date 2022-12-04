@@ -12,3 +12,15 @@ describe('part1', () => {
         expect(part1(puzzleInput)).toBe(487)
     })
 })
+
+describe('part2', () => {
+    test('example.txt', async () => {
+        const puzzleInput = await readFile('day_04/data/example.txt')
+        expect(part2(puzzleInput)).toBe(4)
+    })
+
+    test('day_04.txt', async () => {
+        const puzzleInput = await readFile('day_04/data/day_04.txt')
+        expect(part2(puzzleInput)).toBe(849)
+    })
+})
