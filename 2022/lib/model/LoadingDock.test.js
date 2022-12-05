@@ -1,4 +1,4 @@
-import {LoadingDock} from './LoadingDock.js'
+import {CrateMover9000, LoadingDock} from './LoadingDock.js'
 import {example, puzzleInput} from '../../day_05/data/index.js'
 
 describe('LoadingDock', () => {
@@ -23,7 +23,8 @@ describe('LoadingDock', () => {
             })
             test('exec', () => {
                 const dock = LoadingDock.fromString(example)
-                dock.exec()
+                const mover = new CrateMover9000()
+                dock.exec(mover)
                 expect(dock.tops).toBe('CMZ')
             })
         })

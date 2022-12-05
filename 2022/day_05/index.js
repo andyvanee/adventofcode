@@ -1,8 +1,9 @@
-import {Crate, LoadingDock} from '../lib/model/LoadingDock.js'
+import {Crate, CrateMover9000, LoadingDock} from '../lib/model/LoadingDock.js'
 
 export const part1 = puzzleInput => {
     const dock = LoadingDock.fromString(puzzleInput)
-    dock.exec()
+    const mover = new CrateMover9000()
+    dock.exec(mover)
     return dock.tops
 }
 

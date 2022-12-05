@@ -41,12 +41,12 @@ export class LoadingDock {
             .join('')
     }
 
-    exec() {
+    /**
+     * @param {Mover} mover
+     */
+    exec(mover) {
         for (const instruction of this.instructions) {
-            for (let i = 0; i < instruction.count; i++) {
-                const crate = this.stacks[instruction.fromStack].shift()
-                this.stacks[instruction.toStack].unshift(crate)
-            }
+            mover.exec(instruction, this)
         }
     }
 
@@ -70,5 +70,20 @@ export class LoadingDock {
             if (instruction) loadingDock.instructions.push(instruction)
         })
         return loadingDock
+    }
+}
+
+class Mover {
+    exec(instruction, loadingDock) {
+        throw `Mover::exec not implemented ${this.constructor.name}`
+    }
+}
+
+export class CrateMover9000 extends Mover {
+    exec(instruction, loadingDock) {
+        for (let i = 0; i < instruction.count; i++) {
+            const crate = loadingDock.stacks[instruction.fromStack].shift()
+            loadingDock.stacks[instruction.toStack].unshift(crate)
+        }
     }
 }
