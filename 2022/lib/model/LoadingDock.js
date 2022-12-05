@@ -87,3 +87,16 @@ export class CrateMover9000 extends Mover {
         }
     }
 }
+
+export class CrateMover9001 extends Mover {
+    exec(instruction, loadingDock) {
+        const tempStack = []
+        for (let i = 0; i < instruction.count; i++) {
+            const crate = loadingDock.stacks[instruction.fromStack].shift()
+            tempStack.unshift(crate)
+        }
+        for (const crate of tempStack) {
+            loadingDock.stacks[instruction.toStack].unshift(crate)
+        }
+    }
+}
