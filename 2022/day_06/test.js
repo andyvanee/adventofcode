@@ -1,4 +1,3 @@
-import {HandheldDevice} from '../lib/model/HandheldDevice.js'
 import {example, puzzleInput} from './data/index.js'
 import {part1, part2} from './index.js'
 
@@ -11,10 +10,10 @@ describe('part1', () => {
     })
 })
 describe('part2', () => {
-    test.skip('example', () => {
-        expect(part2(example)).toBe(0)
+    test('example', () => {
+        expect(part2(example)).toBe(19)
     })
-    test.skip('puzzle', () => {
-        expect(part2(puzzleInput)).toBe(0)
+    test('puzzle', () => {
+        expect(part2(puzzleInput)).toBe(3774)
     })
 })
