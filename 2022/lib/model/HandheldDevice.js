@@ -4,12 +4,19 @@ class CommunicationSystem {
     /** @type {Array<string>} */
     #buffer = []
 
+    /**
+     * @param {string} str the input string
+     */
     bufferFromString(str) {
         this.#buffer = str.trim().split('')
     }
 
-    /** @returns {Integer} */
-    #uniqueOfLength(len) {
+    /**
+     * Find the index of the first chunk prefixed with <len> unique characters
+     * @param {number} len number of unique characters marking start of chunk
+     * @returns {number}
+     */
+    #chunkIndex(len) {
         // if the last <len> characters are unique, this is the start of the packet
         for (let i = 0; i <= this.#buffer.length; i++) {
             if (i < len) continue
@@ -18,14 +25,14 @@ class CommunicationSystem {
         return -1
     }
 
-    /** @type {Integer} */
+    /** @type {number} */
     get startOfPacketMarker() {
-        return this.#uniqueOfLength(4)
+        return this.#chunkIndex(4)
     }
 
-    /** @type {Integer} */
+    /** @type {number} */
     get startOfMessageMarker() {
-        return this.#uniqueOfLength(14)
+        return this.#chunkIndex(14)
     }
 }
 
