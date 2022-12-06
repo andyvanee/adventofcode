@@ -1,4 +1,4 @@
-import {split, group} from './lib.js'
+import {split, group, uniq} from './lib.js'
 
 describe('lib', () => {
     describe('split', () => {
@@ -38,9 +38,7 @@ describe('lib', () => {
             expect(result).toBe(expected)
         })
         test('6/2', () => {
-            const result = JSON.stringify(
-                group(2, ['a', 'b', 'c', 'd', 'e', 'f'])
-            )
+            const result = JSON.stringify(group(2, ['a', 'b', 'c', 'd', 'e', 'f']))
             const expected = JSON.stringify([
                 ['a', 'b'],
                 ['c', 'd'],
@@ -48,5 +46,11 @@ describe('lib', () => {
             ])
             expect(result).toBe(expected)
         })
+    })
+
+    test('uniq', () => {
+        expect(uniq(['a']).length).toBe(1)
+        expect(uniq(['a', 'a']).length).toBe(1)
+        expect(uniq(['a', 'b', 'c']).length).toBe(3)
     })
 })
