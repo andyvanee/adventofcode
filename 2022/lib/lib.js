@@ -19,6 +19,11 @@ export const group = (perGroup, list) => {
     )
 }
 
+export const uniq = list => {
+    const uniqFn = (value, index, self) => self.indexOf(value) === index
+    return list.filter(uniqFn)
+}
+
 export const readFile = async (path) => {
     return await fsReadFile(path, {encoding: 'utf-8'})
 }
