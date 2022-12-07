@@ -56,4 +56,18 @@ describe('HandheldDevice', () => {
         expect(storage.directoriesByContentSize[0].size).toBe(48381165)
         expect(storage.directoriesByContentSize[0].dir.path).toBe('/')
     })
+
+    test('storage freeSpace', () => {
+        const device = new HandheldDevice()
+        const {storage} = device
+        storage.driveFromCLI(storageExample)
+        expect(storage.freeSpace).toBe(21618835)
+    })
+
+    test('markForDelete', () => {
+        const device = new HandheldDevice()
+        const {storage} = device
+        storage.driveFromCLI(storageExample)
+        expect(storage.markForDelete(30000000).size).toBe(24933642)
+    })
 })

@@ -159,8 +159,24 @@ class Storage {
             .sort((a, b) => (a.size > b.size ? -1 : 1))
     }
 
+    get freeSpace() {
+        return this.maxSpace - this.directoriesByContentSize[0].size
+    }
+
+    markForDelete(requiredFreeSpace) {
+        const freeSpace = this.freeSpace
+        return this.directoriesByContentSize
+            .reverse()
+            .filter(d => d.size + freeSpace >= requiredFreeSpace)
+            .shift()
+    }
+
+    get deletionCandidates() {
+        return this.directoriesByContentSize.filter(e => e.size <= 100000)
+    }
+
     get deletionCandidateSize() {
-        return this.directoriesByContentSize.filter(e => e.size <= 100000).reduce((prev, curr) => curr.size + prev, 0)
+        return this.deletionCandidates.reduce((prev, curr) => curr.size + prev, 0)
     }
 }
 

@@ -17,5 +17,8 @@ export const part1 = puzzleInput => {
  * @returns {number}
  */
 export const part2 = puzzleInput => {
-    return 0
+    const device = new HandheldDevice()
+    const {storage} = device
+    storage.driveFromCLI(puzzleInput)
+    return storage.markForDelete(30000000).size
 }
