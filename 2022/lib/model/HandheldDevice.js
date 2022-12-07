@@ -126,7 +126,9 @@ class File {
 }
 
 class Storage {
-    entries = {}
+    entries = {
+        '/': new Directory('/'),
+    }
     cwd = '/'
     maxSpace = 70000000
 
@@ -151,7 +153,7 @@ class Storage {
             .map(dir => {
                 const size = this.files
                     .filter(f => f.path.startsWith(dir.path))
-                    .reduce((prev, curr) => curr.size + prev, 0)
+                    .reduce((prev, curr) => (curr['size'] || 0) + prev, 0)
                 return {dir, size}
             })
             .sort((a, b) => (a.size > b.size ? -1 : 1))

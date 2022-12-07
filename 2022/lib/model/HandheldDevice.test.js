@@ -44,8 +44,8 @@ describe('HandheldDevice', () => {
         const {storage} = device
         storage.driveFromCLI(storageExample)
         expect(storage.deletionCandidateSize).toBe(95437)
-        expect(Object.keys(storage.entries).length).toBe(13)
-        expect(storage.directories.length).toBe(3)
+        expect(Object.keys(storage.entries).length).toBe(14)
+        expect(storage.directories.length).toBe(4)
         expect(storage.files.length).toBe(10)
     })
 
@@ -53,6 +53,7 @@ describe('HandheldDevice', () => {
         const device = new HandheldDevice()
         const {storage} = device
         storage.driveFromCLI(storageExample)
-        expect(storage.directoriesByContentSize[0].size).toBe(24933642)
+        expect(storage.directoriesByContentSize[0].size).toBe(48381165)
+        expect(storage.directoriesByContentSize[0].dir.path).toBe('/')
     })
 })
