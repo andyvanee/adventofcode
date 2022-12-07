@@ -38,10 +38,36 @@ export class Minitest {
      */
     static assertEqual(a, b) {
         Minitest.assertionCount += 1
-        if (a !== b) {
+        if (!Minitest.eql(a, b)) {
             Minitest.failureCount += 1
             console.log(`failed asserting that ${a} == ${b}`)
         }
+    }
+
+    /**
+     * Assert that value a is equal to value b
+     * @param {any} a
+     * @param {any} b
+     */
+    static assertNotEqual(a, b) {
+        Minitest.assertionCount += 1
+        if (Minitest.eql(a, b)) {
+            Minitest.failureCount += 1
+            console.log(`failed asserting that ${a} !== ${b}`)
+        }
+    }
+
+    /**
+     * @param {any} a
+     * @param {any} b
+     * @returns
+     */
+    static eql(a, b) {
+        if (typeof a !== typeof b) return false
+        if (a instanceof Number) return a === b
+        if (a instanceof String) return a === b
+        if (a.toString) return a.toString() === b.toString()
+        return JSON.stringify(a) === JSON.stringify(b)
     }
 
     static refuteMatch(regex, subject) {
