@@ -1,29 +1,15 @@
 import {Minitest} from '../lib/minitest.js'
+import {data, example} from './data/index.js'
+import {part1} from './index.js'
 
 const {assertEqual, refuteMatch} = Minitest
-
-class Meme {
-    i_can_has_cheezburger() {
-        return 'OHAI!'
+class TestDay07 extends Minitest {
+    testPart1Example() {
+        assertEqual(95437, part1(example))
     }
-
-    will_it_blend() {
-        return 'YES!'
+    testPart1() {
+        assertEqual(1427048, part1(data))
     }
 }
 
-class TestMeme extends Minitest {
-    setup() {
-        this.meme = new Meme()
-    }
-
-    testThatKittyCanEat() {
-        assertEqual('OHAI!', this.meme.i_can_has_cheezburger())
-    }
-
-    testThatItWillNotBlend() {
-        refuteMatch(/^no/i, this.meme.will_it_blend())
-    }
-}
-
-await TestMeme.run()
+await TestDay07.run()

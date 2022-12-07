@@ -14,6 +14,7 @@ export class Minitest {
             try {
                 await T[attr]()
             } catch (error) {
+                Minitest.failureCount++
                 console.log({error})
             }
             const didAssert = Minitest.assertionCount !== beforeAssertionCount
@@ -37,10 +38,15 @@ export class Minitest {
      * @param {any} b
      */
     static assertEqual(a, b) {
-        Minitest.assertionCount += 1
-        if (!Minitest.eql(a, b)) {
+        try {
+            Minitest.assertionCount += 1
+            if (!Minitest.eql(a, b)) {
+                Minitest.failureCount += 1
+                console.log(`failed asserting that ${a} == ${b}`)
+            }
+        } catch (error) {
             Minitest.failureCount += 1
-            console.log(`failed asserting that ${a} == ${b}`)
+            console.log({error})
         }
     }
 
@@ -50,10 +56,15 @@ export class Minitest {
      * @param {any} b
      */
     static assertNotEqual(a, b) {
-        Minitest.assertionCount += 1
-        if (Minitest.eql(a, b)) {
+        try {
+            Minitest.assertionCount += 1
+            if (Minitest.eql(a, b)) {
+                Minitest.failureCount += 1
+                console.log(`failed asserting that ${a} !== ${b}`)
+            }
+        } catch (error) {
             Minitest.failureCount += 1
-            console.log(`failed asserting that ${a} !== ${b}`)
+            console.log({error})
         }
     }
 
