@@ -6,5 +6,6 @@ export const part1 = puzzleInput => {
 }
 
 export const part2 = puzzleInput => {
-    throw new Error('not implemented')
+    const map = TreeMap.fromString(puzzleInput)
+    return map.highestScenicScore.score
 }

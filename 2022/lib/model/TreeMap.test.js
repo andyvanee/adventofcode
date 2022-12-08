@@ -40,5 +40,12 @@ describe('TreeMap', () => {
         test('visibleTrees', () => {
             expect(map.visibleTrees.length).toBe(21)
         })
+        test('scenicScore', () => {
+            expect(map.treeLocation(2, 1).scenicScore).toBe(4)
+            expect(map.treeLocation(2, 3).scenicScore).toBe(8)
+        })
+        test('highestScenicScore', () => {
+            expect(map.highestScenicScore.score).toBe(8)
+        })
     })
 })

@@ -56,6 +56,34 @@ class TreeLocation {
         }
         return visible.left || visible.right || visible.top || visible.bottom
     }
+
+    get scenicScore() {
+        const distance = {
+            left: 0,
+            right: 0,
+            up: 0,
+            down: 0,
+        }
+        const row = this.map.getRow(this.y)
+        const col = this.map.getColumn(this.x)
+        for (let x = this.x - 1; x >= 0; x--) {
+            distance.left++
+            if (row[x].tallAs(this)) break
+        }
+        for (let x = this.x + 1; x < this.map.width; x++) {
+            distance.right++
+            if (row[x].tallAs(this)) break
+        }
+        for (let y = this.y - 1; y >= 0; y--) {
+            distance.up++
+            if (col[y].tallAs(this)) break
+        }
+        for (let y = this.y + 1; y < this.map.height; y++) {
+            distance.down++
+            if (col[y].tallAs(this)) break
+        }
+        return distance.left * distance.right * distance.up * distance.down
+    }
 }
 
 /**
@@ -121,6 +149,19 @@ export class TreeMap {
         return output
     }
 
+    get highestScenicScore() {
+        let highScore = 0
+        let bestTree = null
+        for (const tree of this) {
+            const score = tree.scenicScore
+            if (score > highScore) {
+                bestTree = tree
+                highScore = score
+            }
+        }
+        return {score: highScore, tree: bestTree}
+    }
+
     /**
      * @param {number} y
      * @returns {TreeLocation[]}
@@ -144,5 +185,3 @@ export class TreeMap {
         return this.#map[y][x]
     }
 }
-
-export const scenicScore = (tree, map) => {}
