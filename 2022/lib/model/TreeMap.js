@@ -2,12 +2,13 @@ class TreeLocation {
     x = 0
     y = 0
     height = 0
+    belongsTo = new TreeMap([[]])
     /**
      *
      * @param {*} param0
      */
-    constructor({x, y, height}) {
-        Object.assign(this, {x, y, height})
+    constructor({x, y, height, belongsTo}) {
+        Object.assign(this, {x, y, height, belongsTo})
     }
 
     /**
@@ -16,6 +17,44 @@ class TreeLocation {
      */
     tallAs(other) {
         return this.height >= other.height
+    }
+
+    set map(map) {
+        this.belongsTo = map
+    }
+    get map() {
+        return this.belongsTo
+    }
+
+    /** @type {boolean} */
+    get isVisible() {
+        const visible = {
+            left: true,
+            right: true,
+            top: true,
+            bottom: true,
+        }
+        const row = this.map.getRow(this.y)
+        const col = this.map.getColumn(this.x)
+        for (const other of row) {
+            if (other.x == this.x) continue
+            if (other.x < this.x && other.tallAs(this)) {
+                visible.left = false
+            }
+            if (other.x > this.x && other.tallAs(this)) {
+                visible.right = false
+            }
+        }
+        for (const other of col) {
+            if (other.y == this.y) continue
+            if (other.y < this.y && other.tallAs(this)) {
+                visible.top = false
+            }
+            if (other.y > this.y && other.tallAs(this)) {
+                visible.bottom = false
+            }
+        }
+        return visible.left || visible.right || visible.top || visible.bottom
     }
 }
 
@@ -32,7 +71,7 @@ export class TreeMap {
      * @returns {TreeMap}
      */
     static fromString(str) {
-        const map = str.split('\n').map((row, y) => {
+        const trees = str.split('\n').map((row, y) => {
             return row.split('').map((height, x) => {
                 return new TreeLocation({
                     x,
@@ -41,7 +80,9 @@ export class TreeMap {
                 })
             })
         })
-        return new TreeMap(map)
+        const map = new TreeMap(trees)
+        for (const tree of map) tree.map = map
+        return map
     }
 
     /**
@@ -73,7 +114,7 @@ export class TreeMap {
     get visibleTrees() {
         const output = []
         for (const tree of this) {
-            if (isVisible(tree, this)) {
+            if (tree.isVisible) {
                 output.push(tree)
             }
         }
@@ -104,38 +145,4 @@ export class TreeMap {
     }
 }
 
-/**
- * Determine whether the tree is visible in the given map
- * @param {TreeLocation} tree
- * @param {TreeMap} map
- * @returns
- */
-export const isVisible = (tree, map) => {
-    const visible = {
-        left: true,
-        right: true,
-        top: true,
-        bottom: true,
-    }
-    const row = map.getRow(tree.y)
-    const col = map.getColumn(tree.x)
-    for (const other of row) {
-        if (other.x == tree.x) continue
-        if (other.x < tree.x && other.tallAs(tree)) {
-            visible.left = false
-        }
-        if (other.x > tree.x && other.tallAs(tree)) {
-            visible.right = false
-        }
-    }
-    for (const other of col) {
-        if (other.y == tree.y) continue
-        if (other.y < tree.y && other.tallAs(tree)) {
-            visible.top = false
-        }
-        if (other.y > tree.y && other.tallAs(tree)) {
-            visible.bottom = false
-        }
-    }
-    return visible.left || visible.right || visible.top || visible.bottom
-}
+export const scenicScore = (tree, map) => {}
