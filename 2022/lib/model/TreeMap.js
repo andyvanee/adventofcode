@@ -23,7 +23,7 @@ class TreeLocation {
  * A map of trees
  */
 export class TreeMap {
-    /** @type {number[][]} */
+    /** @type {TreeLocation[][]} */
     #map = [[]]
 
     /**
@@ -32,8 +32,14 @@ export class TreeMap {
      * @returns {TreeMap}
      */
     static fromString(str) {
-        const map = str.split('\n').map(row => {
-            return row.split('').map(tree => parseInt(tree, 10))
+        const map = str.split('\n').map((row, y) => {
+            return row.split('').map((height, x) => {
+                return new TreeLocation({
+                    x,
+                    y,
+                    height: parseInt(height, 10),
+                })
+            })
         })
         return new TreeMap(map)
     }
@@ -94,7 +100,7 @@ export class TreeMap {
     }
 
     treeLocation(x, y) {
-        return new TreeLocation({x, y, height: this.#map[y][x]})
+        return this.#map[y][x]
     }
 }
 
