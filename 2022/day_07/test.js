@@ -2,7 +2,8 @@ import {Minitest} from '../lib/minitest.js'
 import {data, example} from './data/index.js'
 import {part1, part2} from './index.js'
 
-const {assertEqual, refuteMatch} = Minitest
+const {assertEqual} = Minitest
+
 class TestDay07 extends Minitest {
     testPart1Example() {
         assertEqual(95437, part1(example))
