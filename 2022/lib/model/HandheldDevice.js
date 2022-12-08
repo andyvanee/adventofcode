@@ -106,9 +106,6 @@ class Directory {
     /** @type {string} */
     path = '/'
 
-    /** @type {Array<File|Directory>} */
-    entries = []
-
     constructor(path) {
         this.path = path
     }
@@ -126,6 +123,7 @@ class File {
 }
 
 class Storage {
+    /** @type {{[path:string]: Directory|File}} */
     entries = {
         '/': new Directory('/'),
     }
