@@ -57,7 +57,7 @@ write(
 * @returns {string}
  */
 export const part1 = puzzleInput => {
-    return '';
+    return ''
 }
 
 /**
@@ -66,7 +66,7 @@ export const part1 = puzzleInput => {
 * @returns {string}
  */
 export const part2 = puzzleInput => {
-    return '';
+    return ''
 }
 `
 )
