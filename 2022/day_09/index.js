@@ -1,10 +1,15 @@
+import {Rope} from '../lib/model/Rope.js'
+
 /**
  * Solution for part 1
  * @param {string} puzzleInput
- * @returns {string}
+ * @returns {number}
  */
 export const part1 = puzzleInput => {
-    return '';
+    const rope = new Rope()
+    rope.readInstructions(puzzleInput)
+    rope.exec()
+    return rope.tailVisited
 }
 
 /**
@@ -13,5 +18,5 @@ export const part1 = puzzleInput => {
  * @returns {string}
  */
 export const part2 = puzzleInput => {
-    return '';
+    return ''
 }
