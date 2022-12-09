@@ -66,13 +66,22 @@ class Instruction {
 }
 export class Rope {
     head = new Vector(0, 0)
-    tail = new Vector(0, 0)
+    /** @type {Vector[]} */
+    segments = []
 
     /** @type {Instruction[]} */
     instructions = []
 
     /** @type {Set<string>} */
     #tailVisited = new Set()
+
+    constructor(totalSegments = 2) {
+        this.segments = [...new Array(totalSegments - 1)].map(() => new Vector(0, 0))
+    }
+
+    get tail() {
+        return this.segments[this.segments.length - 1]
+    }
 
     get tailVisited() {
         return Array.from(this.#tailVisited).length
@@ -95,8 +104,12 @@ export class Rope {
      * @param {number} y
      */
     go(x, y) {
+        let head = this.head
         this.head.move(x, y)
-        this.tail.follow(this.head)
+        for (const s of this.segments) {
+            s.follow(head)
+            head = s
+        }
         this.#tailVisited.add(this.tail.toString())
     }
 }

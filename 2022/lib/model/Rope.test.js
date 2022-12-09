@@ -58,4 +58,11 @@ describe('Rope', () => {
         rope.exec()
         expect(rope.tailVisited).toBe(13)
     })
+
+    test('tailVisited 9', () => {
+        const rope = new Rope(9)
+        rope.readInstructions(example)
+        rope.exec()
+        expect(rope.tailVisited).toBe(1)
+    })
 })

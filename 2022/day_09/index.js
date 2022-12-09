@@ -15,8 +15,11 @@ export const part1 = puzzleInput => {
 /**
  * Solution for part 2
  * @param {string} puzzleInput
- * @returns {string}
+ * @returns {number}
  */
 export const part2 = puzzleInput => {
-    return ''
+    const rope = new Rope(10)
+    rope.readInstructions(puzzleInput)
+    rope.exec()
+    return rope.tailVisited
 }
