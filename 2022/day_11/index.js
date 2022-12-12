@@ -6,7 +6,7 @@ import {Item, MonkeyGroup} from '../lib/model/Monkey.js'
  * @returns {number}
  */
 export const part1 = puzzleInput => {
-    Item.DIVISOR = BigInt(3)
+    Item.DIVISOR = 3
     const group = MonkeyGroup.fromString(puzzleInput)
     group.rounds(20)
     return group.topMonkeys
@@ -18,7 +18,7 @@ export const part1 = puzzleInput => {
  * @returns {number}
  */
 export const part2 = puzzleInput => {
-    Item.DIVISOR = BigInt(1)
+    Item.DIVISOR = 1
     const group = MonkeyGroup.fromString(puzzleInput)
     group.rounds(10_000)
     return group.topMonkeys

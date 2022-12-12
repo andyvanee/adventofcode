@@ -1,6 +1,8 @@
+import {uniq} from '../lib.js'
+
 export class Item {
-    static DIVISOR = BigInt(3)
-    worryLevel = BigInt(0)
+    static DIVISOR = 3
+    worryLevel = 0
 
     inspectedBy = []
 
@@ -8,7 +10,7 @@ export class Item {
      * @param {number} worryLevel
      */
     constructor(worryLevel) {
-        Object.assign(this, {worryLevel: BigInt(worryLevel)})
+        Object.assign(this, {worryLevel})
     }
 }
 
@@ -18,7 +20,8 @@ export class Monkey {
     /** @type {Item[]} */
     items = []
 
-    testDef = i => false
+    divisor = 1
+    factor = 1
     operationDef = a => 0
 
     /** @type {Monkey?} */
@@ -30,22 +33,21 @@ export class Monkey {
     /**
      * @param {number} id
      * @param {Item[]} items
-     * @param {Function} testDef
+     * @param {number} divisor
      * @param {Function} operationDef
      * @param {number} trueTarget
      * @param {number} falseTarget
      */
-    constructor(id, items, testDef, operationDef, trueTarget, falseTarget) {
-        Object.assign(this, {id, items, testDef, operationDef, trueTarget, falseTarget})
+    constructor(id, items, divisor, operationDef, trueTarget, falseTarget) {
+        Object.assign(this, {id, items, divisor, operationDef, trueTarget, falseTarget})
     }
 
     throwItems() {
         const targets = {}
         for (const item of this.items) {
-            let newLevel = BigInt(this.operationDef(item.worryLevel))
-            if (Item.DIVISOR > BigInt(1)) newLevel = newLevel / Item.DIVISOR
-            const target = this.testDef(newLevel) ? this.trueTarget : this.falseTarget
-            item.worryLevel = newLevel
+            let newLevel = Math.floor(this.operationDef(item.worryLevel) / Item.DIVISOR)
+            const target = newLevel % this.divisor === 0 ? this.trueTarget : this.falseTarget
+            item.worryLevel = newLevel % this.factor
             item.inspectedBy.push(this.id)
             targets[target] = targets[target] || []
             targets[target].push(item)
@@ -63,14 +65,14 @@ export class Monkey {
         const [_e, trueTarget] = /\s*If true: throw to monkey (\d+)/.exec(true_str)
         const [_f, falseTarget] = /\s*If false: throw to monkey (\d+)/.exec(false_str)
 
-        const testDef = i => i % BigInt(testDivisble) === BigInt(0)
-        const operationParsed = operation.replace(/old/g, 'a').replace(/(\d+)/g, 'BigInt($1)')
+        const divisor = parseInt(testDivisble, 10)
+        const operationParsed = operation.replace(/old/g, 'a')
         const operationDef = new Function('a', `return ${operationParsed}`)
         const itemList = items.split(', ').map(i => new Item(parseInt(i, 10)))
         return new Monkey(
             parseInt(id, 10),
             itemList,
-            testDef,
+            divisor,
             operationDef,
             parseInt(trueTarget, 10),
             parseInt(falseTarget, 10)
@@ -84,6 +86,8 @@ export class MonkeyGroup {
     static fromString(str) {
         const group = new MonkeyGroup()
         group.monkeys = str.split('\n\n').map(str => Monkey.fromString(str))
+        const factor = group.commonFactor
+        group.monkeys.map(m => (m.factor = factor))
         return group
     }
 
@@ -93,6 +97,23 @@ export class MonkeyGroup {
 
     get items() {
         return this.monkeys.map(m => m.items).flat()
+    }
+
+    get factors() {
+        return uniq(this.monkeys.map(m => m.divisor)).sort()
+    }
+
+    get commonFactor() {
+        const factors = this.factors
+        const multiplier = this.factors.pop()
+        let ceiling = multiplier
+        while (true) {
+            if (factors.filter(f => ceiling % f === 0).length === factors.length) {
+                break
+            }
+            ceiling += multiplier
+        }
+        return ceiling
     }
 
     round() {

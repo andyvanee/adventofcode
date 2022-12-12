@@ -11,8 +11,8 @@ describe('Monkey', () => {
     test('throw items', () => {
         const group = MonkeyGroup.fromString(example)
         const items = group.monkeys[0].throwItems()
-        expect(items[3][0].worryLevel).toBe(BigInt(500))
-        expect(items[3][1].worryLevel).toBe(BigInt(620))
+        expect(items[3][0].worryLevel).toBe(500)
+        expect(items[3][1].worryLevel).toBe(620)
         expect(items[3][0].inspectedBy[0]).toBe(0)
     })
     test('round', () => {
@@ -27,5 +27,11 @@ describe('Monkey', () => {
         const group = MonkeyGroup.fromString(example)
         group.rounds(20)
         expect(group.topMonkeys).toBe(10605)
+    })
+
+    test('factors', () => {
+        const group = MonkeyGroup.fromString(example)
+        expect(group.factors.length).toBe(4)
+        expect(group.commonFactor).toBe(96577)
     })
 })
