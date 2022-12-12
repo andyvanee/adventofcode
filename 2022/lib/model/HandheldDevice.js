@@ -1,5 +1,6 @@
 import {uniq} from '../lib.js'
 import {join} from 'node:path'
+import {CPU} from './HandheldDevice/CPU.js'
 class CommunicationSystem {
     /** @type {Array<string>} */
     #buffer = []
@@ -182,4 +183,5 @@ export class HandheldDevice {
     /** @type {CommunicationSystem} */
     comm = new CommunicationSystem()
     storage = new Storage()
+    cpu = new CPU()
 }
