@@ -1,5 +1,6 @@
-class Item {
-    worryLevel = 0
+export class Item {
+    static DIVISOR = BigInt(3)
+    worryLevel = BigInt(0)
 
     inspectedBy = []
 
@@ -7,7 +8,7 @@ class Item {
      * @param {number} worryLevel
      */
     constructor(worryLevel) {
-        Object.assign(this, {worryLevel})
+        Object.assign(this, {worryLevel: BigInt(worryLevel)})
     }
 }
 
@@ -41,7 +42,8 @@ export class Monkey {
     throwItems() {
         const targets = {}
         for (const item of this.items) {
-            const newLevel = Math.floor(this.operationDef(item.worryLevel) / 3)
+            let newLevel = BigInt(this.operationDef(item.worryLevel))
+            if (Item.DIVISOR > BigInt(1)) newLevel = newLevel / Item.DIVISOR
             const target = this.testDef(newLevel) ? this.trueTarget : this.falseTarget
             item.worryLevel = newLevel
             item.inspectedBy.push(this.id)
@@ -61,11 +63,10 @@ export class Monkey {
         const [_e, trueTarget] = /\s*If true: throw to monkey (\d+)/.exec(true_str)
         const [_f, falseTarget] = /\s*If false: throw to monkey (\d+)/.exec(false_str)
 
-        const testDef = i => i % parseInt(testDivisble, 10) === 0
-        const operationParsed = operation.replace(/old/g, 'a')
+        const testDef = i => i % BigInt(testDivisble) === BigInt(0)
+        const operationParsed = operation.replace(/old/g, 'a').replace(/(\d+)/g, 'BigInt($1)')
         const operationDef = new Function('a', `return ${operationParsed}`)
         const itemList = items.split(', ').map(i => new Item(parseInt(i, 10)))
-
         return new Monkey(
             parseInt(id, 10),
             itemList,

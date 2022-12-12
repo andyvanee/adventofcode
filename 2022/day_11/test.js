@@ -13,7 +13,7 @@ describe('day_11', () => {
 
     describe('part 2', () => {
         test.skip('example', async () => {
-            expect(part2(example)).toBe(true)
+            expect(part2(example)).toBe(2713310158)
         })
         test.skip('data', async () => {
             expect(part2(data)).toBe(true)
