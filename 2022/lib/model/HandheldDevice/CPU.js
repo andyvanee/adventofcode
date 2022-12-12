@@ -1,5 +1,5 @@
 import {sum} from '../../lib.js'
-
+import {Screen} from './Screen.js'
 class Instruction {
     delay = 0
     constructor(arg) {
@@ -35,6 +35,8 @@ Instruction.fromString = str => {
 }
 
 export class CPU {
+    screen = new Screen()
+
     REGISTERS = {
         X: 1,
         CLK: 0,
@@ -49,14 +51,31 @@ export class CPU {
     tick() {
         this.REGISTERS.CLK++
     }
+
+    /**
+     * @param {Screen} screen
+     */
+    attachScreen(screen) {
+        this.screen = screen
+    }
     get currentInstruction() {
         return this.instructions[0]
     }
+
+    get xPosition() {
+        return this.REGISTERS.CLK % 40
+    }
+
     runTicks(untilTick = 0) {
         let instruction = this.currentInstruction
         while (this.REGISTERS.CLK < untilTick && instruction) {
+            const pos = this.REGISTERS.CLK % 40
+            const offset = this.REGISTERS.X - pos + 1
+            this.screen.draw(offset > -1 && offset < 3 ? '#' : '.')
+            this.screen.tick()
             this.tick()
             instruction.tick()
+
             if (instruction.delay <= 0) {
                 instruction.exec(this)
                 this.instructions.shift()

@@ -1,5 +1,14 @@
 import {part1, part2} from './index.js'
-import {example, data} from './data/index.js'
+import {example, data, crt} from './data/index.js'
+
+const crtOut = `
+####.###..#..#.###..#..#.####..##..#..#.
+#....#..#.#..#.#..#.#..#....#.#..#.#..#.
+###..###..#..#.#..#.####...#..#....####.
+#....#..#.#..#.###..#..#..#...#....#..#.
+#....#..#.#..#.#.#..#..#.#....#..#.#..#.
+#....###...##..#..#.#..#.####..##..#..#.
+`.trim()
 
 describe('day_10', () => {
     describe('part 1', () => {
@@ -12,11 +21,11 @@ describe('day_10', () => {
     })
 
     describe('part 2', () => {
-        test.skip('example', async () => {
-            expect(part2(example)).toBe(true)
+        test('example', async () => {
+            expect(part2(example)).toBe(crt)
         })
-        test.skip('data', async () => {
-            expect(part2(data)).toBe(true)
+        test('data', async () => {
+            expect(part2(data)).toBe(crtOut)
         })
     })
 })

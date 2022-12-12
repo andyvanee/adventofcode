@@ -19,5 +19,8 @@ export const part1 = puzzleInput => {
  * @returns {string}
  */
 export const part2 = puzzleInput => {
-    return ''
+    let cpu = new HandheldDevice().cpu
+    cpu.parseInstructions(puzzleInput)
+    cpu.runTicks(Infinity)
+    return cpu.screen.toString()
 }
