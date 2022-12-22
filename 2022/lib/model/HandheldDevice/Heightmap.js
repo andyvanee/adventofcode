@@ -75,7 +75,7 @@ export class HeightMap {
         const start = this.locations.find(l => l.start)
         const end = this.locations.find(l => l.end)
         this.locations.map(l => (l.neighbours = this.neighbours(l)))
-        start.cost = 0
+        end.cost = 0
 
         while (true) {
             let exhausted = true
@@ -89,7 +89,7 @@ export class HeightMap {
             }
             if (exhausted) break
         }
-        return end.cost
+        return start.cost
     }
 
     /**
@@ -99,7 +99,7 @@ export class HeightMap {
     neighbours(location) {
         return this.locations.filter(l => {
             const diff = l.height - location.height
-            if (diff > 1) return false
+            if (diff < -1) return false
             const xd = Math.abs(location.x - l.x)
             const yd = Math.abs(location.y - l.y)
             return (xd == 0 && yd == 1) || (xd == 1 && yd == 0)
