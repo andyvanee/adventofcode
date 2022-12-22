@@ -1,3 +1,4 @@
+const id = (x, y) => (x + 1) * (y + 2)
 export class Location {
     static START = 1
     static END = 28
@@ -5,8 +6,17 @@ export class Location {
     x = 0
     y = 0
 
-    /** @type {Location[] | null} */
-    shortestPath = null
+    /** @type {{[key:string]: Location[] | null}} */
+    shortestPath = {
+        [id(0, 1)]: null,
+        [id(0, -1)]: null,
+        [id(1, 0)]: null,
+        [id(-1, 0)]: null,
+    }
+
+    get paths() {
+        return [this.shortestPath[0], this.shortestPath[1], this.shortestPath[3], this.shortestPath[4]].filter(x => x)
+    }
 
     /** @type {Location[]} */
     #neighbours = []
@@ -65,19 +75,30 @@ export class HeightMap {
         const maxLength = this.locations.length
         const start = this.locations.find(l => l.height === Location.START)
         const end = this.locations.find(l => l.height === Location.END)
-        start.shortestPath = [start]
+
+        // Set neighbours
         this.locations.map(l => (l.neighbours = this.neighbours(l)))
 
-        for (let len = 0; len < maxLength; len++) {
-            const prev = this.locations.filter(l => l.shortestPath && l.shortestPath.length == len)
+        start.shortestPath = {
+            0: [start],
+            1: [start],
+            3: [start],
+            4: [start],
+        }
 
-            for (const loc of prev) {
-                const path = loc.shortestPath.slice(0)
-                const tail = path.pop()
-                for (const neigbour of tail.neighbours) {
-                    if (!(path.includes(neigbour) || neigbour.shortestPath)) {
-                        neigbour.shortestPath = [...path, tail, neigbour]
-                        if (neigbour === end) return neigbour.shortestPath
+        for (let len = 0; len < maxLength; len++) {
+            const prev = this.locations
+                .map(l => l.paths)
+                .flat()
+                .filter(path => path.length === len)
+
+            for (const path of prev) {
+                const tail = path.slice(0).pop()
+                for (const neighbour of tail.neighbours) {
+                    const pathId = id(tail.x - neighbour.x, tail.y - neighbour.y)
+                    if (!(path.includes(neighbour) || neighbour.shortestPath[pathId])) {
+                        neighbour.shortestPath[pathId] = [...path, neighbour]
+                        if (neighbour === end) return neighbour.shortestPath[pathId]
                     }
                 }
             }
