@@ -7,15 +7,15 @@ import {HeightMap} from '../lib/model/HandheldDevice/Heightmap.js'
  */
 export const part1 = puzzleInput => {
     const map = HeightMap.fromString(puzzleInput)
-    // Subtract 1 since we want steps between nodes, not number of nodes
     return map.shortestPath
 }
 
 /**
  * Solution for part 2
  * @param {string} puzzleInput
- * @returns {string}
+ * @returns {number}
  */
 export const part2 = puzzleInput => {
-    return ''
+    const map = HeightMap.fromString(puzzleInput)
+    return map.shortestToA
 }

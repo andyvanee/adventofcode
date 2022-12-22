@@ -92,6 +92,16 @@ export class HeightMap {
         return start.cost
     }
 
+    get shortestToA() {
+        let length = this.shortestPath
+        for (const location of this.locations) {
+            if (location.height == 1 && location.cost < length) {
+                length = location.cost
+            }
+        }
+        return length
+    }
+
     /**
      * @param {Location} location
      * @returns {Location[]}
