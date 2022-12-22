@@ -1,15 +1,19 @@
+import {sum} from '../../lib.js'
+
 export class Location {
-    static START = 1
-    static END = 28
+    start = false
+    end = false
     height = -1
     x = 0
     y = 0
 
-    /** @type {Location[] | null} */
-    shortestPath = null
+    /** @type {Location[][] | null} */
+    pathsTo = []
 
     /** @type {Location[]} */
     #neighbours = []
+
+    cost = Infinity
 
     /**
      * @type {Location[]}
@@ -29,18 +33,25 @@ export class Location {
      * @param {number} x
      * @param {number} y
      * @param {number} height
+     * @param {boolean} start
+     * @param {boolean} end
      */
-    constructor(x, y, height) {
-        Object.assign(this, {x, y, height})
-        if (this.height == Location.START) this.cost = 0
+    constructor(x, y, height, start, end) {
+        Object.assign(this, {x, y, height, start, end})
     }
 
     get ID() {
         return `${this.x}-${this.y}`
     }
     static fromString(x, y, char) {
-        const height = {S: Location.START, E: Location.END}[char] || char.charCodeAt() - 95
-        return new Location(x, y, height)
+        if (char == 'S') {
+            return new Location(x, y, 1, true, false)
+        }
+        if (char == 'E') {
+            return new Location(x, y, 26, false, true)
+        }
+        const height = char.charCodeAt() - 96
+        return new Location(x, y, height, false, false)
     }
 }
 
@@ -61,27 +72,24 @@ export class HeightMap {
     }
 
     get shortestPath() {
-        // maxLength will visit every node
-        const maxLength = this.locations.length
-        const start = this.locations.find(l => l.height === Location.START)
-        const end = this.locations.find(l => l.height === Location.END)
-        start.shortestPath = [start]
+        const start = this.locations.find(l => l.start)
+        const end = this.locations.find(l => l.end)
         this.locations.map(l => (l.neighbours = this.neighbours(l)))
+        start.cost = 0
 
-        for (let len = 0; len < maxLength; len++) {
-            const prev = this.locations.filter(l => l.shortestPath && l.shortestPath.length == len)
-
-            for (const loc of prev) {
-                const path = loc.shortestPath.slice(0)
-                const tail = path.pop()
-                for (const neigbour of tail.neighbours) {
-                    if (!(path.includes(neigbour) || neigbour.shortestPath)) {
-                        neigbour.shortestPath = [...path, tail, neigbour]
-                        if (neigbour === end) return neigbour.shortestPath
+        while (true) {
+            let exhausted = true
+            for (const location of this.locations) {
+                for (const neighbour of location.neighbours) {
+                    if (neighbour.cost > location.cost + 1) {
+                        neighbour.cost = location.cost + 1
+                        exhausted = false
                     }
                 }
             }
+            if (exhausted) break
         }
+        return end.cost
     }
 
     /**
