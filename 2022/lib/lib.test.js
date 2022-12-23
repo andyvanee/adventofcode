@@ -1,4 +1,4 @@
-import {split, group, uniq} from './lib.js'
+import {split, group, uniq, max} from './lib.js'
 
 describe('lib', () => {
     describe('split', () => {
@@ -52,5 +52,10 @@ describe('lib', () => {
         expect(uniq(['a']).length).toBe(1)
         expect(uniq(['a', 'a']).length).toBe(1)
         expect(uniq(['a', 'b', 'c']).length).toBe(3)
+    })
+
+    test('max', () => {
+        expect(max([0, 1, 2])).toBe(2)
+        expect(max([-10, 900, 12])).toBe(900)
     })
 })

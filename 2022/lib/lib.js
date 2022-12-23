@@ -24,6 +24,14 @@ export const uniq = list => {
     return list.filter(uniqFn)
 }
 
+export const max = items => {
+    let result = -Infinity
+    for (const i of items) {
+        if (i > result) result = i
+    }
+    return result
+}
+
 export const readFile = async (path) => {
     return await fsReadFile(path, {encoding: 'utf-8'})
 }
