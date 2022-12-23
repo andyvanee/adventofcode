@@ -29,7 +29,7 @@ describe('Packet', () => {
     })
 })
 
-describe.skip('PacketPair', () => {
+describe('PacketPair', () => {
     describe('fromString', () => {
         test('[]\n[]', () => {
             const pp = PacketPair.fromString('[]\n[]', 1)
@@ -76,6 +76,10 @@ describe.skip('PacketPair', () => {
         })
         test('[1,2,1,7\n[[[1]],2,1,[[7]]]', () => {
             const pp = PacketPair.fromString('[1,2,1,7]\n[[[1]],2,1,[[7]]]', 1)
+            expect(pp.ordered).toBe(true)
+        })
+        test('[[1,3],[9]]\n[[3,4],[8]]', () => {
+            const pp = PacketPair.fromString('[[1,3],[9]]\n[[3,4],[8]]', 1)
             expect(pp.ordered).toBe(true)
         })
     })

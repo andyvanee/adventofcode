@@ -14,8 +14,9 @@ export class Packet {
     }
 
     /**
+     * true=right order, false=wrong order, null=undecided
      * @param {Packet} other packet to compare against
-     * @returns {Boolean}
+     * @returns {Boolean?}
      */
     compare(other) {
         for (const [i, value] of this.values.entries()) {
@@ -23,36 +24,28 @@ export class Packet {
             if (!(other.values.length > i)) return false
             const compareOther = other.values[i]
 
-            if (isInt(value)) {
-                if (isInt(compareOther)) {
-                    if (value == compareOther) continue
-                    return value < compareOther
-                }
-                if (isPacket(compareOther)) {
-                    if (!new Packet([value]).compare(compareOther)) return false
-                    continue
-                }
-            } else if (isPacket(value)) {
-                if (isInt(compareOther)) {
-                    if (!value.compare(new Packet([compareOther]))) return false
-                    continue
-                }
-                if (isPacket(compareOther)) {
-                    if (!value.compare(compareOther)) return false
-                    continue
-                }
-            } else {
-                console.error({value})
-                throw new Error('unhandled type')
+            if (isInt(value) && isInt(compareOther)) {
+                if (value == compareOther) continue
+                return value < compareOther
             }
+
+            const {a, b} = {
+                a: isPacket(value) ? value : new Packet([value]),
+                b: isPacket(compareOther) ? compareOther : new Packet([compareOther]),
+            }
+
+            const result = a.compare(b)
+            if (typeof result == 'boolean') return result
         }
-        // left list ran out of items before determination was made
+        if (this.values.length == other.values.length) return null
+        // left list ran out of items
         return true
     }
 
     toObj() {
         return this.values.map(v => (v instanceof Packet ? {P: v.toObj()} : v))
     }
+
     toString() {
         return JSON.stringify(this.toObj())
     }
@@ -78,7 +71,8 @@ export class PacketPair {
 
     /** @type {Boolean} */
     get ordered() {
-        return this.left.compare(this.right)
+        const result = this.left.compare(this.right)
+        return typeof result == 'boolean' ? result : true
     }
 
     static fromString(str, index) {

@@ -7,7 +7,7 @@ describe('day_13', () => {
             expect(part1(example)).toBe(13)
         })
         test('data', async () => {
-            expect(part1(data)).toBe(743)
+            expect(part1(data)).toBe(5625)
         })
     })
 
