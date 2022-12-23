@@ -43,7 +43,7 @@ export class Packet {
     }
 
     toObj() {
-        return this.values.map(v => (v instanceof Packet ? {P: v.toObj()} : v))
+        return this.values.map(v => (v instanceof Packet ? v.toObj() : v))
     }
 
     toString() {
@@ -65,7 +65,7 @@ export class PacketPair {
     left = new Packet([])
     right = new Packet([])
 
-    constructor(left, right, index) {
+    constructor(left, right, index = 1) {
         Object.assign(this, {left, right, index})
     }
 
@@ -84,6 +84,22 @@ export class PacketPair {
 export class DistressSignal {
     /** @type {PacketPair[]} */
     pairs = []
+
+    /** @type {Packet[]} */
+    get packets() {
+        return this.pairs.map(p => [p.left, p.right]).flat()
+    }
+
+    /** @type {number} */
+    get decoderKey() {
+        const packets = this.packets
+            .sort((a, b) => {
+                const result = new PacketPair(a, b).ordered
+                return result === true ? -1 : result === false ? 1 : 0
+            })
+            .map(p => p.toString())
+        return (packets.indexOf('[[2]]') + 1) * (packets.indexOf('[[6]]') + 1)
+    }
 
     get sumCorrect() {
         const correct = this.pairs

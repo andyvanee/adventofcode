@@ -13,8 +13,10 @@ export const part1 = puzzleInput => {
 /**
  * Solution for part 2
  * @param {string} puzzleInput
- * @returns {string}
+ * @returns {number}
  */
 export const part2 = puzzleInput => {
-    return ''
+    const withDividers = `${puzzleInput}\n\n[[2]]\n[[6]]`
+    const signal = DistressSignal.fromString(withDividers)
+    return signal.decoderKey
 }
