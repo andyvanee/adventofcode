@@ -1,8 +1,8 @@
 import { expect, test } from 'bun:test'
-import { Game } from './Game'
+import { Game, sumOfPowers } from './Game'
 
 const input = await Bun.file('./day-02/input.txt').text()
-const sampleA = await Bun.file('./day-02/sampleA.txt').text()
+const sampleA = await Bun.file('./day-02/sample.txt').text()
 
 test('Game::fromString', () => {
     const game = Game.fromString('Game 1: 12 red')
@@ -20,7 +20,7 @@ test('Game::fromString', () => {
     expect(game.blue).toBe(12)
 })
 
-test('day02Sample', () => {
+test('Game::possibleFromGame', () => {
     const source = new Game('', { red: 12, green: 13, blue: 14 })
     const lines = sampleA.split('\n').filter((line) => line.length)
     const games = lines.map((line) => Game.fromString(line))
@@ -36,4 +36,26 @@ test('day02input', () => {
     const lines = input.split('\n').filter((line) => line.length)
     const games = lines.map((line) => Game.fromString(line))
     expect(source.sumOfPossible(games)).toBe(2679)
+})
+
+test('Game::power sample', () => {
+    const lines = sampleA.split('\n').filter((line) => line.length)
+    const games = lines.map((line) => Game.fromString(line))
+    expect(games[0].power).toBe(48)
+    expect(games[1].power).toBe(12)
+    expect(games[2].power).toBe(1560)
+    expect(games[3].power).toBe(630)
+    expect(games[4].power).toBe(36)
+})
+
+test('sumOfPowers', () => {
+    const lines = sampleA.split('\n').filter((line) => line.length)
+    const games = lines.map((line) => Game.fromString(line))
+    expect(sumOfPowers(games)).toBe(2286)
+})
+
+test('day02.1 input', () => {
+    const lines = input.split('\n').filter((line) => line.length)
+    const games = lines.map((line) => Game.fromString(line))
+    expect(sumOfPowers(games)).toBe(77607)
 })

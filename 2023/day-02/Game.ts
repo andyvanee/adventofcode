@@ -28,6 +28,10 @@ function valuesFromString(input: string) {
     return value
 }
 
+export function sumOfPowers(games: Game[]) {
+    return games.reduce((prev, current) => current.power + prev, 0)
+}
+
 export class Game {
     constructor(public id: string, private values: GameValues) {}
 
@@ -57,6 +61,10 @@ export class Game {
             .reduce((prev, curr) => {
                 return curr.value + prev
             }, 0)
+    }
+
+    get power() {
+        return this.red * this.green * this.blue
     }
 
     static fromString(input: string) {
