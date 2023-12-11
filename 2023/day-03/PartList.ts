@@ -8,6 +8,8 @@ class Cell {
     type = CellType.None
     value = 0
     valueId = ''
+    gear = false
+
     constructor(public symbol: string, public x: number, public y: number) {}
 
     neighbours(cells: Cell[]) {
@@ -19,12 +21,19 @@ class Cell {
         })
     }
 
-    neighbourValues(cells: Cell[]) {
-        if (this.type != CellType.Part) return 0
+    neighbourValueCells(cells: Cell[]) {
+        if (this.type != CellType.Part) return []
         const valueIds = new Set<string>()
-        return this.neighbours(cells).reduce((prev, current) => {
-            if (valueIds.has(current.valueId)) return prev
-            valueIds.add(current.valueId)
+        return this.neighbours(cells).filter((cell) => {
+            if (cell.type != CellType.Number) return
+            if (valueIds.has(cell.valueId)) return
+            valueIds.add(cell.valueId)
+            return true
+        })
+    }
+
+    neighbourValues(cells: Cell[]) {
+        return this.neighbourValueCells(cells).reduce((prev, current) => {
             return prev + current.value
         }, 0)
     }
@@ -53,14 +62,17 @@ class Cell {
         this.valueId = `${start}|${end}|${this.y}`
         this.value = parseInt(chars.join(''))
     }
+
+    gearRatio(cells: Cell[]) {
+        if (this.symbol != '*') return 0
+        const neighbourValueCells = this.neighbourValueCells(cells)
+        if (neighbourValueCells.length != 2) return 0
+        return neighbourValueCells[0].value * neighbourValueCells[1].value
+    }
 }
 
 class Schematic {
     constructor(private cells: Cell[]) {}
-
-    get parts() {
-        return []
-    }
 
     static fromString(schematic: string) {
         const cells = schematic
@@ -79,6 +91,10 @@ class Schematic {
 
     get value() {
         return this.cells.reduce((prev, cell) => prev + cell.neighbourValues(this.cells), 0)
+    }
+
+    get gearRatio() {
+        return this.cells.reduce((prev, cell) => prev + cell.gearRatio(this.cells), 0)
     }
 }
 

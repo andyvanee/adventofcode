@@ -12,3 +12,13 @@ test('day03 input', () => {
     const parts = partListFromInput(input)
     expect(parts.value).toBe(546563)
 })
+
+test('day03.1 sample', () => {
+    const parts = partListFromInput(sample)
+    expect(parts.gearRatio).toBe(467835)
+})
+
+test('day03.1 input', () => {
+    const parts = partListFromInput(input)
+    expect(parts.gearRatio).toBe(91031374)
+})
