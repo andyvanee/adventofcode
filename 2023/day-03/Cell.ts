@@ -37,7 +37,9 @@ export class Cell {
     }
 
     neighbourValues(cells: Cell[]) {
-        return this.neighbourValueCells(cells).reduce((prev, current) => {
+        const neighbourValueCells = this.neighbourValueCells(cells)
+
+        return neighbourValueCells.reduce((prev, current) => {
             return prev + current.value
         }, 0)
     }
@@ -52,17 +54,20 @@ export class Cell {
         if (this.type != CellType.Number) return
 
         const chars = [this.symbol]
-        const rowNums = cells.filter((cell) => cell.type == CellType.Number && cell.y == this.y)
+
+        const matchNumbersInRow = (cell: Cell) => cell.type == CellType.Number && cell.y == this.y
+        const numbersInRow = cells.filter(matchNumbersInRow)
+
         let start = this.x
         let end = this.x
         let char = null
 
-        while ((char = rowNums.find((c) => c.x == start - 1))) {
+        while ((char = numbersInRow.find((c) => c.x == start - 1))) {
             chars.unshift(char.symbol)
             start--
         }
 
-        while ((char = rowNums.find((c) => c.x == end + 1))) {
+        while ((char = numbersInRow.find((c) => c.x == end + 1))) {
             chars.push(char.symbol)
             end++
         }

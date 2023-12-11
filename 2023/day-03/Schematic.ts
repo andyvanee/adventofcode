@@ -4,8 +4,9 @@ export class Schematic {
     constructor(private cells: Cell[]) {}
 
     static fromString(schematic: string) {
-        const cells = schematic
-            .split('\n')
+        const lines = schematic.split('\n')
+
+        const cells = lines
             .map((line, y) => {
                 return line.split('').map((char, x) => {
                     return new Cell(char, x, y)
